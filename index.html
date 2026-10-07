@@ -2,7 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- The navbar's logo is a CSS mask; start its fetch with the HTML so the mark
+         doesn't pop in after the bundle has run. Masks are fetched in CORS mode, so
+         the preload needs crossorigin or the browser downloads the file twice. -->
+    <link rel="preload" as="image" type="image/svg+xml" href="/brand/mark-sm.svg" crossorigin />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0B0507" />
     <!-- The hero poster is the page's largest paint; fetch it alongside the JS
@@ -19,7 +25,13 @@
     <meta property="og:title" content="Hack Club NUST" />
     <meta property="og:description" content="The NUST chapter of Hack Club. Workshops, hackathons, and games we built ourselves." />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nust.hackclub.com/" />
+    <meta property="og:image" content="https://nust.hackclub.com/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The Hack Club NUST circuit-shield logo on red" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://nust.hackclub.com/og.png" />
   </head>
   <body>
     <div id="root"></div>

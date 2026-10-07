@@ -47,7 +47,7 @@ export default function GateScreen({
       transition={{ duration: 0.5 }}
     >
       <div className="flex items-center gap-2.5 text-brand">
-        <HackClubLogo size={18} />
+        <HackClubLogo size={22} />
         <span className="text-[12px] uppercase tracking-[0.2em]">Hack Club NUST</span>
       </div>
 

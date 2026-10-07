@@ -52,7 +52,7 @@ export default function Navbar({ entranceComplete, offset = false }: NavbarProps
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <HackClubLogo size={18} />
+            <HackClubLogo size={22} />
             <span className="text-[16px] font-medium tracking-tight">Hack Club NUST</span>
           </motion.a>
 
@@ -128,7 +128,7 @@ export default function Navbar({ entranceComplete, offset = false }: NavbarProps
           animate={{ width: menuOpen ? 0 : 'auto', opacity: menuOpen ? 0 : 1 }}
           transition={pillSpring}
         >
-          <HackClubLogo size={15} className="shrink-0" />
+          <HackClubLogo size={18} className="shrink-0" />
           <span className="whitespace-nowrap text-[13px] font-medium tracking-tight">
             Hack Club NUST
           </span>

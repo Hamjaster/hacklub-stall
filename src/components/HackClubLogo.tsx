@@ -4,31 +4,18 @@ interface HackClubLogoProps {
 }
 
 /**
- * Hack Club NUST mark — the club's "</>" terminal box, drawn as strokes so it
- * inherits currentColor and stays crisp at 18px in the navbar and footer.
+ * Hack Club NUST mark — the circuit-shield "HC", traced to vector from the 2K
+ * master in public/brand. It is drawn as a CSS mask over currentColor, so it
+ * takes the text colour like the stroked icon it replaced. Below 28px the faint
+ * inner traces only muddy the letters, so small sizes use the outline-only cut.
  */
 export default function HackClubLogo({ size = 18, className = '' }: HackClubLogoProps) {
+  const mask = `url(${size < 28 ? '/brand/mark-sm.svg' : '/brand/mark.svg'}) center / contain no-repeat`;
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 100 100"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={7}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
+    <span
       aria-hidden="true"
-    >
-      {/* lid / flag on top of the box */}
-      <path d="M32 14 H62 a8 8 0 0 1 8 8 v6 H24 v-6 a8 8 0 0 1 8 -8 Z" />
-      {/* the terminal box */}
-      <rect x="13" y="30" width="74" height="56" rx="13" />
-      {/* </> glyph */}
-      <path d="M43 46 L31 58 L43 70" />
-      <path d="M57 46 L69 58 L57 70" />
-      <path d="M54 43 L46 73" />
-    </svg>
+      className={`inline-block shrink-0 bg-current ${className}`}
+      style={{ width: size, height: size, WebkitMask: mask, mask }}
+    />
   );
 }

@@ -117,7 +117,7 @@ export default function Footer() {
           {/* club column: name, blurb, CTA, address */}
           <div className="md:col-span-5">
             <div className="flex items-center gap-2.5 text-fg">
-              <HackClubLogo size={18} />
+              <HackClubLogo size={22} />
               <span className="font-mono text-[15px] tracking-tight">Hack Club NUST</span>
             </div>
             <p className="mt-5 max-w-sm font-sans text-[15px] leading-[1.6] text-fg-2">{BLURB}</p>

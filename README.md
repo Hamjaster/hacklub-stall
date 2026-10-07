@@ -65,7 +65,7 @@ src/
   components/
     AnnouncementBar.tsx the orientation flip board + countdown, pinned above the navbar
     OrientationModal.tsx  Minecraft-themed orientation details
-    HackClubLogo.tsx    the club "</>" mark, stroked so it inherits currentColor
+    HackClubLogo.tsx    the circuit-shield "HC" mark, a CSS mask over currentColor (public/brand)
     Navbar.tsx          expanding glass pill menu + Join CTA
     ScrambleIn.tsx      entrance reveal (0.5 chars/frame, 25ms)
     ScrambleText.tsx    hover scramble (4 frames/char, 25ms)
