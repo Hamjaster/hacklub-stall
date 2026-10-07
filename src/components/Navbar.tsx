@@ -122,10 +122,11 @@ export default function Navbar({ entranceComplete, offset = false }: NavbarProps
 
       {/* ---------------- mobile ---------------- */}
       <div className="flex sm:hidden h-20 items-center gap-2 px-4">
+        {/* the padding collapses with the width, or the empty pill keeps 24px of the row */}
         <motion.a
           href="#top"
-          className="flex h-9 items-center gap-2 overflow-hidden rounded-[10px] bg-white/15 px-3 backdrop-blur-md transition-colors group-data-[nav=paper]:bg-pen/[0.08]"
-          animate={{ width: menuOpen ? 0 : 'auto', opacity: menuOpen ? 0 : 1 }}
+          className="flex h-10 items-center gap-2 overflow-hidden rounded-[11px] bg-white/15 px-3 backdrop-blur-md transition-colors group-data-[nav=paper]:bg-pen/[0.08]"
+          animate={{ width: menuOpen ? 0 : 'auto', opacity: menuOpen ? 0 : 1, paddingLeft: menuOpen ? 0 : 12, paddingRight: menuOpen ? 0 : 12 }}
           transition={pillSpring}
         >
           <HackClubLogo size={18} className="shrink-0" />
@@ -135,8 +136,8 @@ export default function Navbar({ entranceComplete, offset = false }: NavbarProps
         </motion.a>
 
         <motion.div
-          className="flex h-9 items-center overflow-hidden rounded-[10px] bg-white/15 backdrop-blur-md transition-colors group-data-[nav=paper]:bg-pen/[0.08]"
-          animate={{ width: menuOpen ? '100%' : 36 }}
+          className="flex h-10 min-w-0 items-center overflow-hidden rounded-[11px] bg-white/15 backdrop-blur-md transition-colors group-data-[nav=paper]:bg-pen/[0.08]"
+          animate={{ width: menuOpen ? '100%' : 40 }}
           transition={pillSpring}
         >
           <button
@@ -145,7 +146,7 @@ export default function Navbar({ entranceComplete, offset = false }: NavbarProps
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((o) => !o)}
             className={`flex shrink-0 items-center justify-center ${
-              menuOpen ? 'ml-1 h-7 w-7 rounded-[8px] bg-white/10 group-data-[nav=paper]:bg-pen/[0.08]' : 'h-9 w-9 rounded-[10px]'
+              menuOpen ? 'ml-1 h-8 w-8 rounded-[8px] bg-white/10 group-data-[nav=paper]:bg-pen/[0.08]' : 'h-10 w-10 rounded-[11px]'
             }`}
           >
             <SquashHamburger isOpen={menuOpen} isMobile />
@@ -154,7 +155,7 @@ export default function Navbar({ entranceComplete, offset = false }: NavbarProps
           <AnimatePresence>
             {menuOpen && (
               <motion.div
-                className="flex items-center gap-4 pl-4"
+                className="flex h-full min-w-0 flex-1 items-center overflow-x-auto pl-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 initial={{ opacity: 0, x: 15 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 15 }}
@@ -165,7 +166,7 @@ export default function Navbar({ entranceComplete, offset = false }: NavbarProps
                     key={link.label}
                     type="button"
                     onClick={() => scrollTo(link.target)}
-                    className="whitespace-nowrap text-[13px] opacity-85"
+                    className="h-full shrink-0 whitespace-nowrap px-1.5 text-[13px] opacity-85"
                   >
                     {link.label}
                   </button>
@@ -180,7 +181,7 @@ export default function Navbar({ entranceComplete, offset = false }: NavbarProps
           href={WHATSAPP_INVITE}
           target="_blank"
           rel="noreferrer"
-          className="flex h-9 shrink-0 items-center gap-1.5 overflow-hidden rounded-[10px] bg-brand-grad px-3 text-[13px] font-bold text-white"
+          className="flex h-10 shrink-0 items-center gap-1.5 overflow-hidden rounded-[11px] bg-brand-grad px-3 text-[13px] font-bold text-white"
           animate={{ width: menuOpen ? 0 : 'auto', opacity: menuOpen ? 0 : 1, paddingLeft: menuOpen ? 0 : 12, paddingRight: menuOpen ? 0 : 12 }}
           transition={pillSpring}
         >

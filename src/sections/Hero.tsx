@@ -122,10 +122,12 @@ export default function Hero({ entranceComplete }: HeroProps) {
   }, []);
 
   const headingClass =
-    'text-white font-light leading-[0.95] tracking-[-0.03em] text-[clamp(40px,10vw,100px)]';
+    'text-white font-light leading-[0.95] tracking-[-0.03em] text-[clamp(40px,10vw,100px)] [@media(orientation:landscape)_and_(max-height:500px)]:text-[clamp(36px,12svh,60px)]';
 
+  // At least a screen tall rather than exactly one: a phone held sideways is
+  // ~390px high, and a fixed height clipped the CTAs off the bottom.
   return (
-    <section id="top" className="relative w-full h-screen-dvh overflow-hidden">
+    <section id="top" className="relative flex w-full min-h-screen-dvh flex-col overflow-hidden">
       {/* The poster is frame zero of the same clip, 86 KB against the video's
           5.3 MB. It is what stands in for the character while those megabytes
           arrive, and what stays up if they never do — without it the hero is an
@@ -178,7 +180,7 @@ export default function Hero({ entranceComplete }: HeroProps) {
 
       {/* content */}
       <motion.div
-        className="relative z-10 flex h-full flex-col px-4 pb-8 pt-20 sm:px-6 sm:pb-12 sm:pt-24 md:px-8"
+        className="relative z-10 flex flex-1 flex-col px-4 pb-8 pt-20 sm:px-6 sm:pb-12 sm:pt-24 md:px-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: entranceComplete ? 1 : 0 }}
         transition={{ duration: 1 }}
@@ -193,8 +195,10 @@ export default function Hero({ entranceComplete }: HeroProps) {
               <ScrambleIn text="In Public" delay={500} triggered={entranceComplete} />
             </h1>
 
+            {/* On a phone this paragraph lands on the mascot's lit goggles, so it
+                gets more opacity and a dark halo there; wider screens clear it. */}
             <motion.p
-              className="max-w-md text-[13px] leading-relaxed text-white/60 sm:text-[15px]"
+              className="max-w-md text-[13px] leading-relaxed text-white/60 max-sm:text-white/80 max-sm:[text-shadow:0_1px_12px_rgba(11,5,7,0.95)] sm:text-[15px]"
               initial={{ opacity: 0, y: 25 }}
               animate={entranceComplete ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.9, ease: [0.215, 0.61, 0.355, 1.0], delay: 0.2 }}

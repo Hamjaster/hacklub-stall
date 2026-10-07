@@ -36,8 +36,9 @@ export default function GateScreen({
     if (valid && !busy) onSubmit(name.trim(), email.trim());
   };
 
+  // 16px on phones: iOS Safari zooms the page into any field set smaller, and stays zoomed.
   const field =
-    'h-12 w-full rounded-xl border bg-white/[0.03] px-4 text-[14px] text-white placeholder:text-white/25 outline-none transition-colors focus:border-brand';
+    'h-12 w-full rounded-xl border bg-white/[0.03] px-4 text-[16px] sm:text-[14px] text-white placeholder:text-white/25 outline-none transition-colors focus:border-brand';
 
   return (
     <motion.div

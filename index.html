@@ -9,7 +9,9 @@
          doesn't pop in after the bundle has run. Masks are fetched in CORS mode, so
          the preload needs crossorigin or the browser downloads the file twice. -->
     <link rel="preload" as="image" type="image/svg+xml" href="/brand/mark-sm.svg" crossorigin />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- No viewport-fit=cover: nothing here pads for env(safe-area-inset-*), so on a
+         notched iPhone held sideways it only slid the gutters under the notch. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0B0507" />
     <!-- The hero poster is the page's largest paint; fetch it alongside the JS
          rather than after React has mounted the video element. -->

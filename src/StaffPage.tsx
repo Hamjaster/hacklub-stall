@@ -82,7 +82,7 @@ export default function StaffPage() {
               value={staffKey}
               onChange={(e) => rememberKey(e.target.value)}
               placeholder="shared key"
-              className="h-11 w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 text-[14px] text-white outline-none focus:border-brand"
+              className="h-11 w-full rounded-xl border border-white/15 bg-white/[0.03] px-4 text-[16px] text-white outline-none focus:border-brand sm:text-[14px]"
             />
           </div>
 
