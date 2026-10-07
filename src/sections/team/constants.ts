@@ -27,9 +27,6 @@ export const NUDGE_REACH = 1.1; // × hanger width — proximity falloff radius
 export const NUDGE_COOLDOWN = 90; // ms per badge between impulses
 export const RIPPLE_STAGGER = 40; // ms between badges struck in the same frame
 
-export const SCROLL_GAIN = 0.025; // deg/s per px/s of row scroll (touch swipe)
-export const SCROLL_MAX = 70; // deg/s → ≈ 5–8°, gentler than the mouse
-
 export const KEY_IMPULSE = 90; // deg/s for ← →
 export const FLICK_IMPULSE = 120; // deg/s for Space / Enter
-export const HANG_IMPULSE = 45; // deg/s, first time the row scrolls into view
+export const HANG_IMPULSE = 45; // deg/s, first time the rail comes into view

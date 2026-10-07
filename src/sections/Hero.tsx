@@ -178,27 +178,33 @@ export default function Hero({ entranceComplete }: HeroProps) {
         </span>
       </div>
 
-      {/* content */}
+      {/* phones: a dark fade under the copy, so the paragraph never sits on the lit goggles */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-ink via-ink/75 to-transparent md:hidden"
+      />
+
+      {/* content. Desktop: everything along the bottom, "Ship Anyway" across from the copy.
+          Phones: a poster — "Build In Public" up top, the mascot clear in the middle,
+          "Ship Anyway" right-aligned over the copy and CTAs at the foot. */}
       <motion.div
-        className="relative z-10 flex flex-1 flex-col px-4 pb-8 pt-20 sm:px-6 sm:pb-12 sm:pt-24 md:px-8"
+        className="relative z-10 flex flex-1 flex-col px-4 pb-8 pt-24 sm:px-6 sm:pb-12 md:px-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: entranceComplete ? 1 : 0 }}
         transition={{ duration: 1 }}
       >
-        <div className="flex-1" />
+        <div className="hidden flex-1 md:block" />
 
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div className="flex flex-col gap-4">
+        <div className="flex flex-1 flex-col gap-4 md:flex-none md:flex-row md:items-end md:justify-between md:gap-6">
+          <div className="flex flex-col gap-4 max-md:contents">
             <h1 className={headingClass}>
               <ScrambleIn text="Build" delay={200} triggered={entranceComplete} />
               <br />
               <ScrambleIn text="In Public" delay={500} triggered={entranceComplete} />
             </h1>
 
-            {/* On a phone this paragraph lands on the mascot's lit goggles, so it
-                gets more opacity and a dark halo there; wider screens clear it. */}
             <motion.p
-              className="max-w-md text-[13px] leading-relaxed text-white/60 max-sm:text-white/80 max-sm:[text-shadow:0_1px_12px_rgba(11,5,7,0.95)] sm:text-[15px]"
+              className="max-w-md text-[13px] leading-relaxed text-white/60 max-md:order-4 max-md:text-white/80 sm:text-[15px]"
               initial={{ opacity: 0, y: 25 }}
               animate={entranceComplete ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.9, ease: [0.215, 0.61, 0.355, 1.0], delay: 0.2 }}
@@ -208,8 +214,9 @@ export default function Hero({ entranceComplete }: HeroProps) {
               the club decides to make next. No experience asked for.
             </motion.p>
 
+            {/* phones: WhatsApp full width, the other two sharing the line beneath it */}
             <motion.div
-              className="mt-2 flex flex-wrap items-center gap-3"
+              className="flex flex-wrap items-center gap-3 max-md:order-5 md:mt-2"
               initial={{ opacity: 0, y: 20 }}
               animate={entranceComplete ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.9, ease: [0.215, 0.61, 0.355, 1.0], delay: 0.45 }}
@@ -218,22 +225,25 @@ export default function Hero({ entranceComplete }: HeroProps) {
                 href={WHATSAPP_INVITE}
                 target="_blank"
                 rel="noreferrer"
-                className="flex h-12 items-center gap-2 rounded-full bg-brand-grad px-6 text-[13.5px] font-bold text-white shadow-[0_8px_30px_rgba(235,69,84,0.32)] transition-transform hover:scale-[1.03] active:scale-[0.98]"
+                className="flex h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-brand-grad px-4 sm:px-6 text-[13.5px] font-bold text-white shadow-[0_8px_30px_rgba(235,69,84,0.32)] transition-transform hover:scale-[1.03] active:scale-[0.98] md:w-auto md:justify-start"
               >
                 <i className="bi bi-whatsapp text-[15px]" aria-hidden="true" />
                 Join the WhatsApp community
               </a>
               <a
                 href="#club"
-                className="flex h-12 items-center gap-2 rounded-full border border-white/20 bg-white/[0.04] px-6 text-[13.5px] text-white/80 backdrop-blur-md transition-colors hover:border-white/45 hover:text-white"
+                className="flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/20 bg-white/[0.04] px-3.5 max-md:flex-1 text-[13.5px] text-white/80 backdrop-blur-md transition-colors hover:border-white/45 hover:text-white sm:px-6"
               >
                 What is Hack Club?
               </a>
-              <SoundButton />
+              <SoundButton className="justify-center whitespace-nowrap max-md:flex-1 max-md:gap-2.5 max-md:px-3.5" />
             </motion.div>
           </div>
 
-          <h1 className={`${headingClass} text-left md:text-right`}>
+          {/* phones: pushes "Ship Anyway" and the copy down to the foot */}
+          <div aria-hidden="true" className="flex-1 max-md:order-2 md:hidden" />
+
+          <h1 className={`${headingClass} text-right max-md:order-3`}>
             <ScrambleIn text="Ship" delay={700} triggered={entranceComplete} />
             <br />
             <ScrambleIn text="Anyway" delay={1000} triggered={entranceComplete} />

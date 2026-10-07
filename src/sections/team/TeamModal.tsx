@@ -44,9 +44,10 @@ export default function TeamModal({ members, index, onClose, onMove }: TeamModal
     return () => {
       document.documentElement.style.overflow = previous;
       const who = last.current !== null ? members[last.current]?.name : null;
+      // phones show the roster and tablets up show the badges; the other copy is display:none
       if (who)
-        document
-          .querySelector<HTMLElement>(`#team [role="button"][aria-label^="${who},"]`)
+        [...document.querySelectorAll<HTMLElement>(`#team [aria-label^="${who},"]`)]
+          .find((el) => el.getClientRects().length > 0)
           ?.focus({ preventScroll: true });
     };
   }, [open, members]);

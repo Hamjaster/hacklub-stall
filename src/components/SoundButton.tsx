@@ -55,7 +55,7 @@ function LevelBars({ playing, size }: { playing: boolean; size: 'lg' | 'sm' }) {
 }
 
 /** The hero's sound toggle: a ghost pill that sits beside the two CTAs. */
-export default function SoundButton() {
+export default function SoundButton({ className = '' }: { className?: string }) {
   const playing = useSoundtrackPlaying();
 
   return (
@@ -64,7 +64,7 @@ export default function SoundButton() {
       onClick={soundtrack.toggle}
       aria-pressed={playing}
       aria-label={playing ? 'Pause the club soundtrack' : 'Play the club soundtrack'}
-      className={`group flex h-12 items-center gap-3 rounded-full border px-5 text-[13.5px] backdrop-blur-md transition-colors ${
+      className={`group flex h-12 items-center gap-3 rounded-full border px-5 text-[13.5px] backdrop-blur-md transition-colors ${className} ${
         playing
           ? 'border-signal/50 bg-signal/[0.08] text-signal'
           : 'border-white/20 bg-white/[0.04] text-white/80 hover:border-white/45 hover:text-white'

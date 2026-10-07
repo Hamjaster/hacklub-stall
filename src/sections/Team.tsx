@@ -3,20 +3,20 @@ import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'fr
 import ScrambleIn from '../components/ScrambleIn';
 import { OFFICE_BEARERS } from '../team';
 import Badge from './team/Badge';
+import Roster from './team/Roster';
 import { EASE_OUT } from './team/constants';
 import { useSwing } from './team/useSwing';
 import TeamModal from './team/TeamModal';
 
-// distance from the viewport edge to the wrap's content box (max-w-6xl, px-4 sm:px-6)
-const GUTTER_PAD =
-  'px-[max(1rem,calc((100vw-72rem)/2+1rem))] sm:px-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))]';
-const GUTTER_SNAP =
-  'scroll-pl-[max(1rem,calc((100vw-72rem)/2+1rem))] sm:scroll-pl-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))]';
+// badge indices per rail, three to a rail; from xl the rails sit side by side and read as one
+const RAILS = Array.from({ length: Math.ceil(OFFICE_BEARERS.length / 3) }, (_, r) =>
+  OFFICE_BEARERS.slice(r * 3, r * 3 + 3).map((_, k) => r * 3 + k),
+);
 
 /**
- * 04 — The staff rail. Six passes hang by their lanyards from one steel rail; the cursor
- * brushing past swings them, a grab pulls one aside and lets it go. Initials stand in for
- * photos, so the section never waits on a headshot and never goes stale.
+ * 04 — The staff rail. Six passes hang by their lanyards from steel rails; the cursor
+ * brushing past swings them, a grab pulls one aside and lets it go. On a phone they are
+ * laid flat as a roster instead, so all six are on screen without a sideways swipe.
  */
 export default function Team() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -95,53 +95,50 @@ export default function Team() {
           </motion.p>
         </div>
 
-        {/* the toy: one rail, six passes */}
-        <motion.div className="relative mt-16 md:mt-20" {...entrance}>
-          <div className="relative">
-            {/* rail: full-bleed, under the strap tops */}
-            <div
-              aria-hidden="true"
-              className="absolute left-[calc(50%-50vw)] right-[calc(50%-50vw)] top-0 h-[3px] rounded-full bg-pen"
-            />
+        {/* phones: the passes laid flat, all six on screen */}
+        <motion.div className="mt-10 sm:hidden" {...entrance} viewport={{ once: true, amount: 0.15 }}>
+          <Roster members={OFFICE_BEARERS} onOpen={setOpenIndex} />
+        </motion.div>
 
-            {/* scroller: full-bleed so swinging end badges are never clipped on desktop */}
-            <div
-              ref={rowRef}
-              onScroll={swing.enabled ? swing.onRowScroll : undefined}
-              className={`-mx-[calc(50vw-50%)] snap-x snap-mandatory overflow-x-auto overflow-y-hidden [scrollbar-width:none] [touch-action:pan-x_pan-y] xl:snap-none xl:overflow-visible [&::-webkit-scrollbar]:hidden ${GUTTER_SNAP}`}
-            >
-              <ul
-                role="list"
-                aria-label="Office bearers"
-                className={`grid w-max auto-cols-[180px] grid-flow-col gap-4 pb-12 pt-0 xl:w-full xl:auto-cols-[minmax(168px,1fr)] ${GUTTER_PAD}`}
-              >
-                {OFFICE_BEARERS.map((m, i) => (
-                  <li key={m.name} className="snap-start">
-                    <Badge
-                      member={m}
-                      index={i}
-                      rot={swing.rot[i]}
-                      enabled={swing.enabled}
-                      bind={swing.bindHanger(i)}
-                      onOpen={() => setOpenIndex(i)}
-                    />
-                  </li>
-                ))}
-              </ul>
-            </div>
+        {/* the toy: the passes on their lanyards — two rails of three, one rail of six from xl,
+            where the two rails meet at the same height and read as one */}
+        <motion.div className="relative mt-16 hidden sm:block md:mt-20" {...entrance} viewport={{ once: true, amount: 0.15 }}>
+          <div ref={rowRef} className="grid gap-y-6 xl:grid-cols-2 xl:gap-x-4">
+            {RAILS.map((rail, r) => (
+              <div key={r} className="relative">
+                {/* rail: full-bleed, under the strap tops; the section clips it at the edges */}
+                <div
+                  aria-hidden="true"
+                  className="absolute left-[calc(50%-50vw)] right-[calc(50%-50vw)] top-0 h-[3px] rounded-full bg-pen"
+                />
+                <ul role="list" aria-label={r === 0 ? 'Office bearers' : undefined} className="grid grid-cols-3 gap-4 pb-12">
+                  {rail.map((i) => (
+                    <li key={OFFICE_BEARERS[i].name} className="flex justify-center">
+                      <div className="w-full max-w-[200px]">
+                        <Badge
+                          member={OFFICE_BEARERS[i]}
+                          index={i}
+                          rot={swing.rot[i]}
+                          enabled={swing.enabled}
+                          bind={swing.bindHanger(i)}
+                          onOpen={() => setOpenIndex(i)}
+                        />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </motion.div>
 
         {/* caption */}
         <div className="rule-paper mt-4" />
         <div className="mt-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 font-mono text-[11px] uppercase tracking-[0.2em] text-pen-3">
-          <span>Six badges · Session 2026–27 · Tap one to open their file</span>
-          {swing.enabled && (
-            <>
-              <span className="hidden [@media(hover:hover)]:inline">Grab one, let go</span>
-              <span className="[@media(hover:hover)]:hidden">Swipe the rail</span>
-            </>
-          )}
+          <span>
+            <span className="hidden sm:inline">Six badges · </span>Session 2026–27 · Tap one to open their file
+          </span>
+          {swing.enabled && <span className="hidden sm:inline">Grab one, let go</span>}
         </div>
       </div>
 

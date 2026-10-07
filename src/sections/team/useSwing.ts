@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { KeyboardEvent, PointerEvent, RefObject, UIEvent } from 'react';
+import type { KeyboardEvent, PointerEvent, RefObject } from 'react';
 import { animate, motionValue, useInView, useReducedMotion } from 'framer-motion';
 import type { MotionValue } from 'framer-motion';
 import {
@@ -14,8 +14,6 @@ import {
   NUDGE_REACH,
   RELEASE_VMAX,
   RIPPLE_STAGGER,
-  SCROLL_GAIN,
-  SCROLL_MAX,
   SWING,
 } from './constants';
 
@@ -39,7 +37,7 @@ export type HangerBinding = {
 
 /**
  * The staff rail's physics. Each badge is one rotation MotionValue (degrees, pivot at the
- * rail). Every input — a hand brushing past, a grab-and-release, a swipe of the row, a key —
+ * rail). Every input — a hand brushing past, a grab-and-release, a key —
  * becomes an angular impulse fed to framer's spring via `velocity`, so the spring is the
  * pendulum and it stops itself at rest: nothing ticks while the badges are still.
  *
@@ -75,8 +73,6 @@ export function useSwing(
   const grab = useRef({ pivotX: 0, pivotY: 0, phi0: 0, rot0: 0, x: 0, y: 0, raf: 0 });
 
   // swipe state
-  const prevScroll = useRef<{ s: number; t: number } | null>(null);
-  const vScroll = useRef(0);
 
   const flickSign = useRef(1);
 
@@ -129,6 +125,7 @@ export function useSwing(
     for (let i = 0; i < count; i++) {
       const r = slotRect(i);
       if (!r || r.right < 0 || r.left > window.innerWidth) continue;
+      if (p.y < r.top - 24 || p.y > r.bottom + 24) continue; // a different row of badges
       const cx = r.left + r.width / 2;
       const w = clamp(1 - Math.abs(p.x - cx) / (r.width * NUDGE_REACH), 0, 1);
       const impulse = clamp(-v * NUDGE_GAIN, -NUDGE_MAX, NUDGE_MAX) * w;
@@ -153,35 +150,7 @@ export function useSwing(
     [enabled, flush],
   );
 
-  // ---- C. swipe (touch): the row's own scroll velocity ----------------------------------
-  const onRowScroll = useCallback(
-    (e: UIEvent<HTMLDivElement>) => {
-      if (!enabled || !active.current) return;
-      const s = e.currentTarget.scrollLeft;
-      const t = e.timeStamp;
-      const prev = prevScroll.current;
-      if (prev && t - prev.t > 150) vScroll.current = 0; // a fresh swipe
-      if (prev && t > prev.t) {
-        const dt = Math.max(t - prev.t, 8) / 1000;
-        vScroll.current = 0.5 * vScroll.current + 0.5 * ((s - prev.s) / dt);
-        const impulse = clamp(-vScroll.current * SCROLL_GAIN, -SCROLL_MAX, SCROLL_MAX);
-        if (Math.abs(impulse) >= NUDGE_MIN) {
-          const now = performance.now();
-          for (let i = 0; i < count; i++) {
-            const r = slotRect(i);
-            if (!r || r.right < 0 || r.left > window.innerWidth) continue;
-            if (now - lastHit.current[i] < NUDGE_COOLDOWN) continue;
-            lastHit.current[i] = now;
-            kick(i, impulse);
-          }
-        }
-      }
-      prevScroll.current = { s, t };
-    },
-    [count, enabled, kick],
-  );
-
-  // ---- B. grab (mouse / pen) + D. keyboard, per hanger ----------------------------------
+  // ---- B. grab (mouse / pen) + C. keyboard, per hanger ----------------------------------
   const release = useCallback(
     (i: number) => {
       if (grabbingIndex.current !== i) return;
@@ -250,7 +219,7 @@ export function useSwing(
     lifted: lifted === i,
   });
 
-  // ---- E. the first hang -----------------------------------------------------------------
+  // ---- D. the first hang -----------------------------------------------------------------
   const rowInView = useInView(rowRef, { once: true, amount: 0.5 });
   useEffect(() => {
     if (!rowInView || !enabled) return;
@@ -259,7 +228,7 @@ export function useSwing(
     }, 300);
   }, [rowInView, enabled, count, kick, later]);
 
-  // ---- F. pause offscreen + cleanup --------------------------------------------------------
+  // ---- E. pause offscreen + cleanup --------------------------------------------------------
   useEffect(() => {
     const section = sectionRef.current;
     if (!section || typeof IntersectionObserver === 'undefined') {
@@ -273,7 +242,6 @@ export function useSwing(
           if (rafId.current) cancelAnimationFrame(rafId.current);
           rafId.current = 0;
           previous.current = null;
-          prevScroll.current = null;
         }
       },
       { threshold: 0 },
@@ -294,5 +262,5 @@ export function useSwing(
     };
   }, [rot]);
 
-  return { enabled, rot, onSectionPointerMove, onRowScroll, bindHanger };
+  return { enabled, rot, onSectionPointerMove, bindHanger };
 }
