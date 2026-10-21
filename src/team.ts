@@ -15,7 +15,6 @@ export interface OfficeBearer {
 
 export const OFFICE_BEARERS: OfficeBearer[] = [
   { name: 'Malik Usman', role: 'President', photo: '/team/malik-usman.webp' },
-  { name: 'Moteba Rehman', role: 'Vice President', photo: '/team/moteba-rehman.webp' },
   { name: 'Hamza Shah', role: 'Tech Secretary', photo: '/team/hamza-shah.webp' },
   { name: 'Zaki Haider', role: 'Secretary', photo: '/team/zaki-haider.webp' },
   { name: 'Noor Fatima', role: 'Treasurer', photo: '/team/noor-fatima.webp' },

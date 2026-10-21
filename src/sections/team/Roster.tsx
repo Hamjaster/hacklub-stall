@@ -10,7 +10,7 @@ interface RosterProps {
 }
 
 /**
- * The staff rail on a phone: six passes laid flat as ID strips, so the whole
+ * The staff rail on a phone: five passes laid flat as ID strips, so the whole
  * council is on screen at once instead of behind a sideways swipe. Same card
  * stock, photo, tag and number as the badges; a tap opens the same file.
  */

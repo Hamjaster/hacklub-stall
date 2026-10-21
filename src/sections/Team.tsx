@@ -14,9 +14,9 @@ const RAILS = Array.from({ length: Math.ceil(OFFICE_BEARERS.length / 3) }, (_, r
 );
 
 /**
- * 04 — The staff rail. Six passes hang by their lanyards from steel rails; the cursor
+ * 04 — The staff rail. Five passes hang by their lanyards from steel rails; the cursor
  * brushing past swings them, a grab pulls one aside and lets it go. On a phone they are
- * laid flat as a roster instead, so all six are on screen without a sideways swipe.
+ * laid flat as a roster instead, so all five are on screen without a sideways swipe.
  */
 export default function Team() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -82,7 +82,7 @@ export default function Team() {
                 {reduce ? 'Run by students.' : <ScrambleIn text="Run by students." delay={0} triggered={h2InView} />}
               </span>
               <span className="block">
-                {reduce ? 'These six.' : <ScrambleIn text="These six." delay={250} triggered={h2InView} />}
+                {reduce ? 'These five.' : <ScrambleIn text="These five." delay={250} triggered={h2InView} />}
               </span>
             </h2>
           </div>
@@ -95,12 +95,12 @@ export default function Team() {
           </motion.p>
         </div>
 
-        {/* phones: the passes laid flat, all six on screen */}
+        {/* phones: the passes laid flat, all five on screen */}
         <motion.div className="mt-10 sm:hidden" {...entrance} viewport={{ once: true, amount: 0.15 }}>
           <Roster members={OFFICE_BEARERS} onOpen={setOpenIndex} />
         </motion.div>
 
-        {/* the toy: the passes on their lanyards — two rails of three, one rail of six from xl,
+        {/* the toy: the passes on their lanyards — a rail of three and a rail of two, one rail from xl,
             where the two rails meet at the same height and read as one */}
         <motion.div className="relative mt-16 hidden sm:block md:mt-20" {...entrance} viewport={{ once: true, amount: 0.15 }}>
           <div ref={rowRef} className="grid gap-y-6 xl:grid-cols-2 xl:gap-x-4">
@@ -136,7 +136,7 @@ export default function Team() {
         <div className="rule-paper mt-4" />
         <div className="mt-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 font-mono text-[11px] uppercase tracking-[0.2em] text-pen-3">
           <span>
-            <span className="hidden sm:inline">Six badges · </span>Session 2026–27 · Tap one to open their file
+            <span className="hidden sm:inline">Five badges ·</span>Session 2026–27 · Tap one to open their file
           </span>
           {swing.enabled && <span className="hidden sm:inline">Grab one, let go</span>}
         </div>
